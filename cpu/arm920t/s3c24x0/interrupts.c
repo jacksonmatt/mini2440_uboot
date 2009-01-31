@@ -190,6 +190,7 @@ ulong get_tbclk (void)
       defined(CONFIG_SMDK2410) || \
       defined(CONFIG_SMDK2440) || \
       defined(CONFIG_SMDK2443) || \
+      defined(CONFIG_MINI2440) || \
       defined(CONFIG_VCMA9)
 	tbclk = CFG_HZ;
 #else
