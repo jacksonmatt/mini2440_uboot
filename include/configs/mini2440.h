@@ -37,7 +37,8 @@
 #define CONFIG_SKIP_RELOCATE_UBOOT	1
 #define	CONFIG_SKIP_LOWLEVEL_INIT	1
 #else
-/* If we want to start u-boot directly from within NAND flash */
+/* If we want to start u-boot directly from within NAND flash
+ * Also use this if loading the bootloader directly via JTAG */
 #define CONFIG_LL_INIT_NAND_ONLY
 #define CONFIG_S3C2410_NAND_BOOT	1
 #define CONFIG_S3C2410_NAND_SKIP_BAD	1
@@ -70,20 +71,16 @@
 /*
  * Hardware drivers
  */
-#if 0
-#define CONFIG_DRIVER_CS8900	1	/* we have a CS8900 on-board */
-#define CS8900_BASE		0x19000300
-#define CS8900_BUS16		1 /* the Linux driver does accesses as shorts */
-#endif
-
-/*
- * MINI2440 ethernet
- */
 #define CONFIG_DRIVER_DM9000 1
 #define CONFIG_DM9000_BASE 0x20000300
 #define DM9000_IO CONFIG_DM9000_BASE
 #define DM9000_DATA (CONFIG_DM9000_BASE+4)
 #define CONFIG_DM9000_USE_16BIT
+
+#define CONFIG_DRIVER_S3C24X0_I2C	1
+#define CONFIG_HARD_I2C			1
+#define CFG_I2C_SPEED			400000	/* 400kHz according to PCF50606 data sheet */
+#define CFG_I2C_SLAVE			0x7f
 
 /*
  * select serial console configuration
@@ -205,6 +202,7 @@
 #define CONFIG_USBD_DFU			1
 #define CONFIG_USBD_DFU_XFER_SIZE	4096
 #define CONFIG_USBD_DFU_INTERFACE	2
+//#define CONFIG_USB_DFU_REVISION 0x0100
 #endif
 
 /*-----------------------------------------------------------------------
@@ -222,38 +220,32 @@
  * FLASH and environment organization
  */
 
-//#define CONFIG_AMD_LV400	1	/* uncomment this if you have a LV400 flash */
-//#define CONFIG_AMD_LV800	1	/* uncomment this if you have a LV800 flash */
 #define CONFIG_SST_VF1601	1	/* uncomment this if you have a Am29LV160DB flash */
 
 #define CFG_MAX_FLASH_BANKS	1	/* max number of memory banks */
-#ifdef CONFIG_AMD_LV800
-#define PHYS_FLASH_SIZE		0x00100000 /* 1MB */
-#define CFG_MAX_FLASH_SECT	(19)	/* max number of sectors on one chip */
-#define CFG_ENV_ADDR		(CFG_FLASH_BASE + 0x0F0000) /* addr of environment */
-#endif
-
-#ifdef CONFIG_AMD_LV400
-#define PHYS_FLASH_SIZE		0x00080000 /* 512KB */
-#define CFG_MAX_FLASH_SECT	(11)	/* max number of sectors on one chip */
-#define CFG_ENV_ADDR		(CFG_FLASH_BASE + 0x070000) /* addr of environment */
-#endif
 
 #ifdef CONFIG_SST_VF1601
 #define PHYS_FLASH_SIZE		0x00200000 /* 2MB */
 #define CFG_MAX_FLASH_SECT	(32)	/* max number of sectors on one chip */
-#define CFG_MY_ENV_OFFSET 0X40000
-#define CFG_ENV_ADDR		(CFG_FLASH_BASE + CFG_MY_ENV_OFFSET) /* addr of environment */
 #endif
 
 /* timeout values are in ticks */
 #define CFG_FLASH_ERASE_TOUT	(5*CFG_HZ) /* Timeout for Flash Erase */
 #define CFG_FLASH_WRITE_TOUT	(5*CFG_HZ) /* Timeout for Flash Write */
 
-//#define	CFG_ENV_IS_IN_NAND	1
-#define CFG_ENV_IS_IN_FLASH 1
+/*
+ * u-boot environmnet
+ */
+#if 1
+#define	CFG_ENV_IS_IN_NAND	1
+#define CFG_ENV_OFFSET_OOB	1	// dont define for CFG_ENV_IS_IN_FLASH
 #define CFG_ENV_SIZE		0x10000		/* 128k Total Size of Environment Sector */
-//#define CFG_ENV_OFFSET_OOB	1	// dont define for CFG_ENV_IS_IN_FLASH
+#else
+#define CFG_ENV_IS_IN_FLASH 1
+#define CFG_MY_ENV_OFFSET 0X40000
+#define CFG_ENV_ADDR		(CFG_FLASH_BASE + CFG_MY_ENV_OFFSET) /* addr of environment */
+#define CFG_ENV_SIZE		0x10000		/* 128k Total Size of Environment Sector */
+#endif
 #define CFG_PREBOOT_OVERRIDE	1
 
 #define NAND_MAX_CHIPS		1
@@ -266,9 +258,6 @@
 
 #define CONFIG_EXT2		1
 
-//#define CONFIG_NEW_QT2440	0
-
-/* FAT driver in u-boot is broken currently */
 #define CONFIG_FAT		1
 #define CONFIG_SUPPORT_VFAT
 
@@ -286,8 +275,8 @@
 #define CONFIG_SETUP_MEMORY_TAGS	1
 #define CONFIG_CMDLINE_TAG		1
 #if 0
-#define CONFIG_SERIAL_TAG		1
 #define CONFIG_REVISION_TAG		1
+#define CONFIG_SERIAL_TAG		1
 #endif
 #define CONFIG_CMDLINE_EDITING	1
 #define CONFIG_AUTO_COMPLETE	1
@@ -313,9 +302,9 @@
 #define CFG_NAND_YAFFS_WRITE
 #define CFG_NAND_YAFFS1_NEW_OOB_LAYOUT
 
-#define MTDIDS_DEFAULT		"nand0=smdk2440-nand"
-#define MTPARTS_DEFAULT		"smdk2440-nand:256k@0(u-boot),64k(params),5m(kernel),-(root)"
-#define CFG_NAND_DYNPART_MTD_KERNEL_NAME "smdk2440-nand"
-//#define CONFIG_NAND_DYNPART	1
+#define MTDIDS_DEFAULT		"nand0=mini2440-nand"
+#define MTPARTS_DEFAULT		"mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)"
+#define CFG_NAND_DYNPART_MTD_KERNEL_NAME "mini2440-nand"
+#define CONFIG_NAND_DYNPART	1
 
 #endif	/* __CONFIG_H */
