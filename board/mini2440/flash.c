@@ -123,10 +123,11 @@ ulong flash_init (void)
 		       CFG_FLASH_BASE + monitor_flash_len - 1,
 		       &flash_info[0]);
 
+#if defined(CFG_ENV_ADDR)
 	flash_protect (FLAG_PROTECT_SET,
 		       CFG_ENV_ADDR,
 		       CFG_ENV_ADDR + CFG_ENV_SIZE - 1, &flash_info[0]);
-
+#endif
 	return size;
 }
 
