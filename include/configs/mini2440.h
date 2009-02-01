@@ -107,6 +107,7 @@
 #define CONFIG_CMD_DATE
 #define CONFIG_CMD_DIAG
 #define CONFIG_CMD_ELF
+#define CONFIG_CMD_DHCP
 #define CONFIG_CMD_EXT2
 #define CONFIG_CMD_FAT
 #define CONFIG_CMD_JFFS2
@@ -116,14 +117,14 @@
 #define CONFIG_CMD_PORTIO
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_SAVES
-//#undef CONFIG_CMD_LICENSE
+#define CONFIG_CMD_I2C		/* I2C serial bus support	*/
 
 #define CONFIG_BOOTDELAY	3
-#define CONFIG_BOOTARGS    	"root=/dev/mtdblock4 rootfstype=jffs2 console=ttySAC2,115200 loglevel=8"
+#define CONFIG_BOOTARGS    	"root=/dev/mtdblock4 rootfstype=jffs2 console=ttySAC0,115200"
 #define CONFIG_ETHADDR	        08:08:11:18:12:27
 #define CONFIG_NETMASK          255.255.255.0
 #define CONFIG_IPADDR		10.0.0.111
-#define CONFIG_SERVERIP		10.0.0.5
+#define CONFIG_SERVERIP		10.0.0.4
 /*#define CONFIG_BOOTFILE	"elinos-lart" */
 //#define CONFIG_BOOTCOMMAND	"nand read 0x32000000 0x34000 0x200000; bootm"
 #define CONFIG_BOOTCOMMAND	""
@@ -198,7 +199,6 @@
 #define CONFIG_USBD_PRODUCTID_CDCACM	0x511b	/* SMDK2440 CDC ACM */
 #define CONFIG_USBD_MANUFACTURER	"MINI2440, Inc."
 #define CONFIG_USBD_PRODUCT_NAME	"S3C2440 Bootloader " U_BOOT_VERSION
-#define CONFIG_EXTRA_ENV_SETTINGS	"usbtty=cdc_acm\0"
 #define CONFIG_USBD_DFU			1
 #define CONFIG_USBD_DFU_XFER_SIZE	4096
 #define CONFIG_USBD_DFU_INTERFACE	2
@@ -303,8 +303,14 @@
 #define CFG_NAND_YAFFS1_NEW_OOB_LAYOUT
 
 #define MTDIDS_DEFAULT		"nand0=mini2440-nand"
-#define MTPARTS_DEFAULT		"mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)"
+#define MTPARTS_DEFAULT		"mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)"
 #define CFG_NAND_DYNPART_MTD_KERNEL_NAME "mini2440-nand"
 #define CONFIG_NAND_DYNPART	1
+
+#define CONFIG_EXTRA_ENV_SETTINGS	\
+	"usbtty=cdc_acm\0" \
+	"mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)\0" \
+	"bootargs_base=rootfstype=jffs2 root=/dev/mtdblock4 console=ttySAC0,115200\0" \
+	""	
 
 #endif	/* __CONFIG_H */

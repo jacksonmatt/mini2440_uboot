@@ -128,7 +128,11 @@ int board_init (void)
 #endif
 
 	/* arch number of SMDK2440-Board */
-	gd->bd->bi_arch_number = MACH_TYPE_S3C2440;
+//	gd->bd->bi_arch_number = MACH_TYPE_S3C2440;
+#ifndef MACH_TYPE_MINI2440
+#define MACH_TYPE_MINI2440 1999 /* from kernel post 2.6.28 */
+#endif
+	gd->bd->bi_arch_number = MACH_TYPE_MINI2440;
 
 	/* adress of boot parameters */
 	gd->bd->bi_boot_params = 0x30000100;
