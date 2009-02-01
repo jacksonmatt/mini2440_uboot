@@ -207,7 +207,7 @@ copyex:
 #if (CONFIG_SYS_CLK_FREQ == 16934400)
 # define MPLLCON_val	((0x61 << 12) + (0x1 << 4) + 0x2)	/* 296.35 MHz */
 # define UPLLCON_val	((0x3c << 12) + (0x4 << 4) + 0x2)	/*  47.98 MHz */
-#else if (CONFIG_SYS_CLK_FREQ == 12000000)
+#elif (CONFIG_SYS_CLK_FREQ == 12000000)
 # define MPLLCON_val	((0x44 << 12) + (0x1 << 4) + 0x1)	/* 304.00 MHz */
 # define UPLLCON_val	((0x38 << 12) + (0x2 << 4) + 0x2)	/*  48.00 MHz */
 #endif
