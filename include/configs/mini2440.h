@@ -130,6 +130,7 @@
 #define CONFIG_BOOTCOMMAND	""
 
 #if 0
+#define CONFIG_BOOTARGS		"noinitrd root=/dev/nfs rw nfsroot=10.0.0.4:/opt/build/openwrt/root ip=10.0.0.111:10.0.0.4::255.255.255.0 console=ttySAC0,115200 init=/linuxrc"
 #define CONFIG_BOOTCOMMAND	"nfs 0x30008000 192.168.1.3:/home/tekkaman/working/nfs/zImage.img;bootm"
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"tekkaman=bmp d 50000\0 "				\
