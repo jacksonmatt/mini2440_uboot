@@ -120,6 +120,12 @@ static const struct s3c24x0_pll_speed pll_configs[] = {
 		.mpllcon = ((92 << 12) + (1 << 4) + 1),
 		.clkdivn = CLKDIVN_1_4_8,
 	},
+	{
+		.mhz = 405,
+		.mpllcon = ((0x7f << 12) + (0x2 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,	/* changed from CLKDIVN_1_3_6 !! */
+	},
+};
 #elif defined(CONFIG_S3C2440)
 /* from page 7-21 of S3C2440A user's manual Revision 1 */
 #if (CONFIG_SYS_CLK_FREQ == 12000000)
@@ -143,7 +149,7 @@ static const struct s3c24x0_pll_speed pll_configs[] = {
 	{
 		.mhz = 405,
 		.mpllcon = ((0x7f << 12) + (0x2 << 4) + 0x1),
-		.clkdivn = CLKDIVN_1_3_6,
+		.clkdivn = CLKDIVN_1_4_8,	/* changed from CLKDIVN_1_3_6 !! */
 	},
 #elif (CONFIG_SYS_CLK_FREQ == 16934400)
 static const u_int32_t upllcon = ((0x3c << 12) + (2 << 4) + 2);
