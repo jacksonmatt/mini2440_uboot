@@ -204,7 +204,7 @@ copyex:
 # define CLKDIVN_val	3 /* FCLK:HCLK:PCLK = 1:2:4 */
 #elif defined(CONFIG_MINI2440)
 # define INTSUBMSK_val	0xffff
-# define MPLLCON_val	((0x5c << 12) + (0x1 << 4) + 0x1)	/* 405.00 MHz */
+# define MPLLCON_val	((0x7f << 12) + (0x2 << 4) + 0x1)	/* 405.00 MHz */
 # define UPLLCON_val	((0x38 << 12) + (0x2 << 4) + 0x2)	/*  48.00 MHz */
 # define CLKDIVN_val	5 /* FCLK:HCLK:PCLK = 1:4:8 */
 # define CAMDIVN	0x4C000018
@@ -255,7 +255,7 @@ copyex:
 # endif
 
 #if defined(CONFIG_S3C2440) || defined(CONFIG_S3C2442)
-	/* Make sure we get FCLK:HCLK:PCLK as specified */
+	/* Make sure we get FCLK:HCLK:PCLK */
 	ldr	r0, =CAMDIVN
 	mov	r1, #0
 	str	r1, [r0]
