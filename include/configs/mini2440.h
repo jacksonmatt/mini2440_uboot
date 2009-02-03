@@ -59,7 +59,6 @@
 
 
 #define USE_920T_MMU		1
-//#define CONFIG_USE_IRQ		1
 //#undef CONFIG_USE_IRQ			/* we don't need IRQ/FIQ stuff */
 
 /*
@@ -75,7 +74,6 @@
 #define CONFIG_DM9000_BASE 0x20000300
 #define DM9000_IO CONFIG_DM9000_BASE
 #define DM9000_DATA (CONFIG_DM9000_BASE+4)
-#define CONFIG_DM9000_USE_16BIT
 
 #define CONFIG_DRIVER_S3C24X0_I2C	1
 #define CONFIG_HARD_I2C			1
