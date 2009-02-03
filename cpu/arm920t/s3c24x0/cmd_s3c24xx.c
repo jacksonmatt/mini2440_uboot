@@ -87,6 +87,39 @@ static const struct s3c24x0_pll_speed pll_configs[] = {
 		.clkdivn = CLKDIVN_1_2_4,
 	},
 };
+#elif defined(CONFIG_MINI2440)
+/*
+ * Apparently the default 12Mhz PLL config are wrong, they won't work reliably in any case
+ * This is the reconstructed information picked from the datasheet and 'verification' on other
+ * source from internet
+ */
+static const u_int32_t upllcon = ((0x38 << 12) + (2 << 4) + 2);
+static const struct s3c24x0_pll_speed pll_configs[] = {
+	{
+		.mhz = 100,
+		.mpllcon = ((42 << 12) + (4 << 4) + 1),
+		.clkdivn = CLKDIVN_1_1_1,
+	},
+	{
+		.mhz = 200,
+		.mpllcon = ((92 << 12) + (4 << 4) + 1),
+		.clkdivn = CLKDIVN_1_2_4,
+	},
+	{
+		.mhz = 271,
+		.mpllcon = ((173 << 12) + (2 << 4) + 2),
+		.clkdivn = CLKDIVN_1_3_6,
+	},
+	{
+		.mhz = 304,
+		.mpllcon = ((68 << 12) + (1 << 4) + 1),
+		.clkdivn = CLKDIVN_1_3_6,
+	},
+	{
+		.mhz = 400,
+		.mpllcon = ((92 << 12) + (1 << 4) + 1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
 #elif defined(CONFIG_S3C2440)
 /* from page 7-21 of S3C2440A user's manual Revision 1 */
 #if (CONFIG_SYS_CLK_FREQ == 12000000)
