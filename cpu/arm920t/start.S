@@ -202,12 +202,6 @@ copyex:
 # define MPLLCON_val	((0x90 << 12) + (0x7 << 4) + 0x0)	/* 202 MHz */
 # define UPLLCON_val	((0x78 << 12) + (0x2 << 4) + 0x3)
 # define CLKDIVN_val	3 /* FCLK:HCLK:PCLK = 1:2:4 */
-#elif defined(CONFIG_MINI2440)
-# define INTSUBMSK_val	0xffff
-# define MPLLCON_val	((0x7f << 12) + (0x2 << 4) + 0x1)	/* 405.00 MHz */
-# define UPLLCON_val	((0x38 << 12) + (0x2 << 4) + 0x2)	/*  48.00 MHz */
-# define CLKDIVN_val	5 /* FCLK:HCLK:PCLK = 1:4:8 */
-# define CAMDIVN	0x4C000018
 #elif defined(CONFIG_S3C2440)
 # define INTSUBMSK_val	0xffff
 #if (CONFIG_SYS_CLK_FREQ == 16934400)
