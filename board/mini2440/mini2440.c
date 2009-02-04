@@ -30,29 +30,14 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
-#define FCLK_SPEED 1
+#define CLKDIVN_VAL	5
+#define M_MDIV		0x7f	// 0x6e
+#define M_PDIV		0x2		// 0x3
+#define M_SDIV		0x1
 
-#if FCLK_SPEED==0		/* Fout = 203MHz, Fin = 12MHz for Audio */
-#define M_MDIV	0xC3
-#define M_PDIV	0x4
-#define M_SDIV	0x1
-#elif FCLK_SPEED==1		/* Fout = 399.65MHz */
-#define M_MDIV	0x7f	// 0x6e
-#define M_PDIV	0x2		// 0x3
-#define M_SDIV	0x1
-#endif
-
-#define USB_CLOCK 1
-
-#if USB_CLOCK==0
-#define U_M_MDIV	0xA1
-#define U_M_PDIV	0x3
-#define U_M_SDIV	0x1
-#elif USB_CLOCK==1
 #define U_M_MDIV	0x38
 #define U_M_PDIV	0x2
 #define U_M_SDIV	0x2
-#endif
 
 static inline void delay (unsigned long loops)
 {
@@ -73,15 +58,15 @@ int board_init (void)
 	/* to reduce PLL lock time, adjust the LOCKTIME register */
 	clk_power->LOCKTIME = 0xFFFFFF;
 
+	/* configure UPLL */
+	clk_power->UPLLCON = ((U_M_MDIV << 12) + (U_M_PDIV << 4) + U_M_SDIV);
+	/* some delay between MPLL and UPLL */
+	delay (10);
 	/* configure MPLL */
 	clk_power->MPLLCON = ((M_MDIV << 12) + (M_PDIV << 4) + M_SDIV);
 
-	/* some delay between MPLL and UPLL */
-	delay (4000);
-
-	/* configure UPLL */
-	clk_power->UPLLCON = ((U_M_MDIV << 12) + (U_M_PDIV << 4) + U_M_SDIV);
-
+	clk_power->CLKDIVN = CLKDIVN_VAL;
+	
 	/* some delay between MPLL and UPLL */
 	delay (8000);
 
