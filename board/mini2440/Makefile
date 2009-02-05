@@ -30,7 +30,7 @@ SOBJS	:= lowlevel_init.o
 
 .PHONY:	all
 
-all:	$(LIB) lowlevel_foo.bin
+all:	$(LIB)
 
 SRCS	:= $(SOBJS:.o=.S) $(COBJS:.o=.c)
 OBJS	:= $(addprefix $(obj),$(COBJS))
