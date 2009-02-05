@@ -279,6 +279,29 @@ dm9000_reset(void)
 		printf("ERROR: resetting DM9000 -> not responding\n");
 }
 
+/* Initilize dm9000 MAC, without reset
+*/
+int
+eth_set_mac(bd_t * bd)
+{
+	int i,oft;
+	printf("MAC: %02x:%02x:%02x:%02x:%02x:%02x\n", bd->bi_enetaddr[0],
+	       bd->bi_enetaddr[1], bd->bi_enetaddr[2], bd->bi_enetaddr[3],
+	       bd->bi_enetaddr[4], bd->bi_enetaddr[5]);
+
+	/* fill device MAC address registers */
+	for (i = 0, oft = DM9000_PAR; i < 6; i++, oft++)
+		DM9000_iow(oft, bd->bi_enetaddr[i]);
+	for (i = 0, oft = 0x16; i < 8; i++, oft++)
+		DM9000_iow(oft, 0xff);
+
+	/* read back mac, just to be sure */
+	for (i = 0, oft = 0x10; i < 6; i++, oft++)
+		DM9000_DBG("%02x:", DM9000_ior(oft));
+	DM9000_DBG("\n");
+	return 0;
+}
+
 /* Initilize dm9000 board
 */
 int
@@ -345,7 +368,7 @@ eth_init(bd_t * bd)
 	DM9000_iow(DM9000_ISR, ISR_ROOS | ISR_ROS | ISR_PTS | ISR_PRS);
 
 	/* Set Node address */
-#if !defined(CONFIG_AT91SAM9261EK)
+#if !defined(CONFIG_AT91SAM9261EK) && !defined(CONFIG_DRIVER_DM9000_NO_EEPROM)
 	for (i = 0; i < 6; i++)
 		((u16 *) bd->bi_enetaddr)[i] = read_srom_word(i);
 #endif
@@ -363,21 +386,7 @@ eth_init(bd_t * bd)
 				s = (*e) ? e + 1 : e;
 		}
 	}
-
-	printf("MAC: %02x:%02x:%02x:%02x:%02x:%02x\n", bd->bi_enetaddr[0],
-	       bd->bi_enetaddr[1], bd->bi_enetaddr[2], bd->bi_enetaddr[3],
-	       bd->bi_enetaddr[4], bd->bi_enetaddr[5]);
-
-	/* fill device MAC address registers */
-	for (i = 0, oft = DM9000_PAR; i < 6; i++, oft++)
-		DM9000_iow(oft, bd->bi_enetaddr[i]);
-	for (i = 0, oft = 0x16; i < 8; i++, oft++)
-		DM9000_iow(oft, 0xff);
-
-	/* read back mac, just to be sure */
-	for (i = 0, oft = 0x10; i < 6; i++, oft++)
-		DM9000_DBG("%02x:", DM9000_ior(oft));
-	DM9000_DBG("\n");
+	eth_set_mac(bd);
 
 	/* Activate DM9000 */
 	/* RX enable */
