@@ -59,7 +59,8 @@
 
 
 #define USE_920T_MMU		1
-//#undef CONFIG_USE_IRQ			/* we don't need IRQ/FIQ stuff */
+//#define CONFIG_USE_IRQ		1
+#undef CONFIG_USE_IRQ			/* we don't need IRQ/FIQ stuff */
 
 /*
  * Size of malloc() pool
@@ -189,7 +190,7 @@
 #define CONFIG_STACKSIZE_FIQ	(4*1024)	/* FIQ stack */
 #endif
 
-#if 1
+#if 0
 #define CONFIG_USB_OHCI_NEW	1
 #define CONFIG_CMD_USB
 
