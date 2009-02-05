@@ -71,14 +71,17 @@
  * Hardware drivers
  */
 #define CONFIG_DRIVER_DM9000 1
+#define CONFIG_DRIVER_DM9000_NO_EEPROM 1
 #define CONFIG_DM9000_BASE 0x20000300
 #define DM9000_IO CONFIG_DM9000_BASE
 #define DM9000_DATA (CONFIG_DM9000_BASE+4)
 
 #define CONFIG_DRIVER_S3C24X0_I2C	1
+#if (CONFIG_DRIVER_S3C24X0_I2C)
 #define CONFIG_HARD_I2C			1
 #define CFG_I2C_SPEED			400000	/* 400kHz according to PCF50606 data sheet */
 #define CFG_I2C_SLAVE			0x7f
+#endif
 
 /*
  * select serial console configuration
@@ -101,6 +104,8 @@
  ***********************************************************/
 #include <config_cmd_default.h>
 
+#undef CONFIG_CMD_FPGA		/* FPGA configuration Support	*/
+
 #define CONFIG_CMD_CACHE
 #define CONFIG_CMD_DATE
 #define CONFIG_CMD_DIAG
@@ -115,7 +120,10 @@
 #define CONFIG_CMD_PORTIO
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_SAVES
+
+#if defined(CONFIG_DRIVER_S3C24X0_I2C)
 #define CONFIG_CMD_I2C		/* I2C serial bus support	*/
+#endif
 
 #define CONFIG_BOOTDELAY	3
 #define CONFIG_BOOTARGS    	"root=/dev/mtdblock4 rootfstype=jffs2 console=ttySAC0,115200"
@@ -302,7 +310,7 @@
 #define CFG_NAND_YAFFS1_NEW_OOB_LAYOUT
 
 #define MTDIDS_DEFAULT		"nand0=mini2440-nand"
-#define MTPARTS_DEFAULT		"mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)"
+#define MTPDARTS_DEFAULT		"mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)"
 #define CFG_NAND_DYNPART_MTD_KERNEL_NAME "mini2440-nand"
 #define CONFIG_NAND_DYNPART	1
 
