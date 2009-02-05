@@ -56,7 +56,7 @@ static inline void nand_wait(void)
 		for (i=0; i<10; i++);
 }
 
-#if defined(CONFIG_S3C2410)
+#if defined(CONFIG_S3C2410) || defined(CONFIG_MINI2440)
 /* configuration for 2410 with 512byte sized flash */
 #define NAND_PAGE_SIZE		512
 #define BAD_BLOCK_OFFSET	5
