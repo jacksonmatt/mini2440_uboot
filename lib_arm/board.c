@@ -420,6 +420,13 @@ extern void dm644x_eth_set_mac_addr (const u_int8_t *addr);
 	}
 #endif
 
+#if defined(CONFIG_DRIVER_DM9000) && defined(CONFIG_DRIVER_DM9000_NO_EEPROM)
+extern int eth_set_mac(bd_t * bd);
+	if (getenv ("ethaddr")) {
+		eth_set_mac(gd->bd);
+	}
+#endif
+
 #ifdef CONFIG_DRIVER_CS8900
 	cs8900_get_enetaddr (gd->bd->bi_enetaddr);
 #endif
