@@ -280,6 +280,7 @@ ALL += $(obj)u-boot.srec $(obj)u-boot.bin $(obj)System.map $(U_BOOT_NAND) $(U_BO
 ifeq ($(ARCH),blackfin)
 ALL += $(obj)u-boot.ldr
 endif
+ALL += $(obj)u-boot-nand512.bin
 
 all:		$(ALL)
 
@@ -325,6 +326,10 @@ $(obj)u-boot:		depend $(SUBDIRS) $(OBJS) $(LIBS) $(LDSCRIPT)
 		cd $(LNDIR) && $(LD) $(LDFLAGS) $$UNDEF_SYM $(__OBJS) \
 			--start-group $(__LIBS) --end-group $(PLATFORM_LIBS) \
 			-Map u-boot.map -o u-boot
+
+# make a file that can be written using "nand write ..." on 512 block NAND
+$(obj)u-boot-nand512.bin:	$(obj)u-boot.bin
+		dd if=$< of=$@ bs=512 conv=sync
 
 $(OBJS):	depend $(obj)include/autoconf.mk
 		$(MAKE) -C cpu/$(CPU) $(if $(REMOTE_BUILD),$@,$(notdir $@))
