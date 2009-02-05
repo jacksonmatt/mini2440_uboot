@@ -20,8 +20,9 @@
 /u-boot
 /u-boot.hex
 /u-boot.map
-/u-boot.bin
+/u-boot*.bin
 /u-boot.srec
+/u-boot.dis
 /u-boot.ldr
 /u-boot.ldr.hex
 /u-boot.ldr.srec
@@ -44,3 +45,6 @@ series
 
 # cscope files
 cscope.*
+
+/tools/mkudfu
+
