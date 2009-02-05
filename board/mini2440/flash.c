@@ -2,6 +2,9 @@
  * (C) Copyright 2002
  * Sysgo Real-Time Solutions, GmbH <www.elinos.com>
  * Alex Zuepke <azu@sysgo.de>
+ * 
+ * (C) Copyright 2009
+ * Michel Pollet <buserror@gmail.com>
  *
  * See file CREDITS for list of people who contributed to this
  * project.

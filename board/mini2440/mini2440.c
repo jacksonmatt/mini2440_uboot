@@ -5,6 +5,9 @@
  *
  * (C) Copyright 2002
  * David Mueller, ELSOFT AG, <d.mueller@elsoft.ch>
+ * 
+ * (C) Copyright 2009
+ * Michel Pollet <buserror@gmail.com>
  *
  * See file CREDITS for list of people who contributed to this
  * project.

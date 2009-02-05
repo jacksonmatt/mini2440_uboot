@@ -5,7 +5,10 @@
  * Gary Jennejohn <gj@denx.de>
  * David Mueller <d.mueller@elsoft.ch>
  *
- * Configuation settings for the SAMSUNG SMDK2440 board.
+ * (C) Copyright 2009
+ * Michel Pollet <buserror@gmail.com>
+ * 
+ * Configuation settings for the MINI2440 board.
  *
  * See file CREDITS for list of people who contributed to this
  * project.
