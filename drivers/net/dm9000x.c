@@ -385,6 +385,10 @@ eth_init(bd_t * bd)
 	/* Enable TX/RX interrupt mask */
 	DM9000_iow(DM9000_IMR, IMR_PAR);
 
+#ifdef CONFIG_MINI2440
+	// PHY read status doesn't work anyway
+	return 0;
+#endif
 	i = 0;
 	while (!(phy_read(1) & 0x20)) {	/* autonegation complete bit */
 		udelay(1000);
