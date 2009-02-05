@@ -43,6 +43,8 @@
  */
 
 #define BWSCON	0x48000000
+#  define INTMSK		0x4A000008	/* Interupt-Controller base addresses */
+#  define INTSUBMSK		0x4A00001C
 
 /* BWSCON */
 #define DW8		 	(0x0)
@@ -134,6 +136,15 @@ _TEXT_BASE:
 
 .globl lowlevel_init
 lowlevel_init:
+	// disable all interupts
+	mov	r1, #0xffffffff
+	ldr	r0, =INTMSK
+	str	r1, [r0]
+
+	ldr	r1, =0x7fff
+	ldr	r0, =INTSUBMSK
+	str	r1, [r0]
+
 	/* memory control configuration */
 	/* make r0 relative the current location so that it */
 	/* reads SMRDATA out of FLASH rather than memory ! */
