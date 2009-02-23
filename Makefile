@@ -129,7 +129,8 @@ ifeq ($(obj)include/config.mk,$(wildcard $(obj)include/config.mk))
 include $(obj)include/config.mk
 export	ARCH CPU BOARD VENDOR SOC
 
-CROSS_COMPILE = /opt/build/openwrt/gcc/arm-openwrt-linux-
+CROSS_COMPILE = /opt/build/arm-gcc/arm-angstrom-linux-gnueabi-
+
 ifndef CROSS_COMPILE
 ifeq ($(HOSTARCH),$(ARCH))
 CROSS_COMPILE =

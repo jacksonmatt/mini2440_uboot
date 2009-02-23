@@ -30,6 +30,7 @@
 
 #include <common.h>
 #include <s3c2440.h>
+#include <video_fb.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -181,6 +182,58 @@ int board_init (void)
 
 	return 0;
 }
+
+
+
+#define MVAL		(0)
+#define MVAL_USED 	(0)		//0=each frame   1=rate by MVAL
+#define INVVDEN		(1)		//0=normal       1=inverted
+#define BSWP		(0)		//Byte swap control
+#define HWSWP		(1)		//Half word swap control
+
+
+//TFT 240320
+#define LCD_XSIZE_TFT_240320 	(240)	
+#define LCD_YSIZE_TFT_240320 	(320)
+
+//TFT240320
+#define HOZVAL_TFT_240320	(LCD_XSIZE_TFT_240320-1)
+#define LINEVAL_TFT_240320	(LCD_YSIZE_TFT_240320-1)
+
+//Timing parameter for NEC3.5"
+#define VBPD_240320		(3)		
+#define VFPD_240320		(10)
+#define VSPW_240320		(1)
+
+#define HBPD_240320		(5)
+#define HFPD_240320		(2)
+#define HSPW_240320		(36)
+
+#define CLKVAL_TFT_240320	(3) 	
+//FCLK=101.25MHz,HCLK=50.625MHz,VCLK=6.33MHz
+
+
+void board_video_init(GraphicDevice *pGD) 
+{ 
+    S3C24X0_LCD * const lcd = S3C24X0_GetBase_LCD(); 
+	 
+    /* FIXME: select LCM type by env variable */ 
+	 
+	/* Configuration for GTA01 LCM on QT2410 */ 
+	lcd->LCDCON1 = 0x00000378; /* CLKVAL=4, BPPMODE=16bpp, TFT, ENVID=0 */ 
+	
+//    lcd->LCDCON2 = 0x014fc141; 
+//	lcd->LCDCON3 = 0x0098ef13; 
+//	lcd->LCDCON4 = 0x00000d05; 
+	lcd->LCDCON5 = 0x00000f09; 
+
+	lcd->LCDCON2 = (VBPD_240320<<24)|(LINEVAL_TFT_240320<<14)|(VFPD_240320<<6)|(VSPW_240320); 
+	lcd->LCDCON3 = (HBPD_240320<<19)|(HOZVAL_TFT_240320<<8)|(HFPD_240320); 
+	lcd->LCDCON4 = (MVAL<<8)|(HSPW_240320); 
+	
+   
+    lcd->LPCSEL  = 0x00000000; 
+} 
 
 int dram_init (void)
 {
