@@ -130,7 +130,7 @@
 #endif
 
 #define CONFIG_BOOTDELAY	3
-#define CONFIG_BOOTARGS    	"root=/dev/mtdblock4 rootfstype=jffs2 console=ttySAC0,115200"
+#define CONFIG_BOOTARGS    	"root=/dev/mtdblock3 rootfstype=jffs2 console=ttySAC0,115200"
 #define CONFIG_ETHADDR	        08:08:11:18:12:27
 #define CONFIG_NETMASK          255.255.255.0
 #define CONFIG_IPADDR		10.0.0.111
@@ -324,14 +324,25 @@
 #define CFG_NAND_YAFFS1_NEW_OOB_LAYOUT
 
 #define MTDIDS_DEFAULT		"nand0=mini2440-nand"
-#define MTPDARTS_DEFAULT		"mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)"
+#define MTPDARTS_DEFAULT		"mtdparts=mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)"
 #define CFG_NAND_DYNPART_MTD_KERNEL_NAME "mini2440-nand"
 #define CONFIG_NAND_DYNPART	1
 
 #define CONFIG_EXTRA_ENV_SETTINGS	\
 	"usbtty=cdc_acm\0" \
-	"mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)\0" \
-	"bootargs_base=rootfstype=jffs2 root=/dev/mtdblock4 console=ttySAC0,115200\0" \
+	"mtdparts=mtdparts=mini2440-nand:256k@0(u-boot),128k(env),5m(kernel),-(root)\0" \
+	"mini2440=mini2440=0tb\0" \
+	"bootargs_base=console=ttySAC0,115200 noinitrd\0" \
+	"bootargs_init=init=/sbin/init\0" \
+	"root_nand=root=/dev/mtdblock3\0" \
+	"root_mmc=root=/dev/mmcblk0p2\0" \
+	"root_nfs=root=/dev/nfs rw nfsroot=${serverip}:/mnt/nfs\0" \
+	"ifconfig_static=ip=${ipaddr}:${serverip}::${netmask}:mini2440:eth0\0" \
+	"ifconfig_dhcp=ip=dhcp\0" \
+	"ifconfig=ip=dhcp\0" \
+	"set_bootargs_mmc=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${bootargs_mmc}\0" \
+	"set_bootargs_nand=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${bootargs_nand}\0" \
+	"set_bootargs_nfs=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${bootargs_nfs} ${ifconfig}\0" \
 	""	
 
 #endif	/* __CONFIG_H */
