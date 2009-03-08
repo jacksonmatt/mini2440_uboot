@@ -283,6 +283,7 @@ ifeq ($(ARCH),blackfin)
 ALL += $(obj)u-boot.ldr
 endif
 ALL += $(obj)u-boot-nand512.bin
+ALL += $(obj)u-boot-nand16k.bin
 
 all:		$(ALL)
 
@@ -332,6 +333,8 @@ $(obj)u-boot:		depend $(SUBDIRS) $(OBJS) $(LIBS) $(LDSCRIPT)
 # make a file that can be written using "nand write ..." on 512 block NAND
 $(obj)u-boot-nand512.bin:	$(obj)u-boot.bin
 		dd if=$< of=$@ bs=512 conv=sync
+$(obj)u-boot-nand16k.bin:	$(obj)u-boot.bin
+		dd if=$< of=$@ bs=16K conv=sync
 
 $(OBJS):	depend $(obj)include/autoconf.mk
 		$(MAKE) -C cpu/$(CPU) $(if $(REMOTE_BUILD),$@,$(notdir $@))
