@@ -110,10 +110,11 @@
 
 #undef CONFIG_CMD_FPGA		/* FPGA configuration Support	*/
 
-#define CONFIG_CMD_CACHE
+#undef CONFIG_CMD_CACHE
+#undef CONFIG_CMD_DIAG
+#undef CONFIG_CMD_ELF
+
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_DIAG
-#define CONFIG_CMD_ELF
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_EXT2
 #define CONFIG_CMD_FAT
@@ -135,20 +136,8 @@
 #define CONFIG_NETMASK          255.255.255.0
 #define CONFIG_IPADDR		10.0.0.111
 #define CONFIG_SERVERIP		10.0.0.4
-/*#define CONFIG_BOOTFILE	"elinos-lart" */
-//#define CONFIG_BOOTCOMMAND	"nand read 0x32000000 0x34000 0x200000; bootm"
-#define CONFIG_BOOTCOMMAND	""
 
-#if 0
-#define CONFIG_BOOTARGS		"noinitrd root=/dev/nfs rw nfsroot=10.0.0.4:/opt/build/openwrt/root ip=10.0.0.111:10.0.0.4::255.255.255.0 console=ttySAC0,115200 init=/linuxrc"
-#define CONFIG_BOOTCOMMAND	"nfs 0x30008000 192.168.1.3:/home/tekkaman/working/nfs/zImage.img;bootm"
-#define	CONFIG_EXTRA_ENV_SETTINGS					\
-	"tekkaman=bmp d 50000\0 "				\
-	"stdin=serial\0"					\
-	"stdout=serial\0"					\
-	"stderr=serial\0"					\
-	""
-#endif
+#define CONFIG_BOOTCOMMAND	""
 
 #define CONFIG_DOS_PARTITION	1
 
@@ -204,6 +193,7 @@
 
 #define CONFIG_USB_DEVICE	1
 #define CONFIG_USB_TTY		1
+#define CONFIG_USB_STORAGE	1
 #define CFG_CONSOLE_IS_IN_ENV	1
 #define CONFIG_USBD_VENDORID		0x1457	/* FIC */
 #define CONFIG_USBD_PRODUCTID_GSERIAL	0x5120	/* gserial */
@@ -270,7 +260,7 @@
 #define CONFIG_EXT2		1
 
 #define CONFIG_FAT		1
-#define CONFIG_SUPPORT_VFAT
+#define CONFIG_SUPPORT_VFAT	1
 
 #if 1
 /* JFFS2 driver */
@@ -317,8 +307,8 @@
 #define LCD_VIDEO_ADDR		0x33d00000
 #endif
 
-//#define CONFIG_S3C2410_NAND_BBT		1
-//#define CONFIG_S3C2410_NAND_HWECC	1
+#define CONFIG_S3C2410_NAND_BBT		1	
+//#define CONFIG_S3C2440_NAND_HWECC	1	/* this works for generation, not verification */
 
 #define CFG_NAND_YAFFS_WRITE
 #define CFG_NAND_YAFFS1_NEW_OOB_LAYOUT
@@ -335,14 +325,14 @@
 	"bootargs_base=console=ttySAC0,115200 noinitrd\0" \
 	"bootargs_init=init=/sbin/init\0" \
 	"root_nand=root=/dev/mtdblock3\0" \
-	"root_mmc=root=/dev/mmcblk0p2\0" \
-	"root_nfs=root=/dev/nfs rw nfsroot=${serverip}:/mnt/nfs\0" \
-	"ifconfig_static=ip=${ipaddr}:${serverip}::${netmask}:mini2440:eth0\0" \
-	"ifconfig_dhcp=ip=dhcp\0" \
+	"root_mmc=root=/dev/mmcblk0p2 rootdelay=2\0" \
+	"set_root_nfs=setenv root_nfs root=/dev/nfs rw nfsroot=${serverip}:/mnt/nfs\0" \
+	"ifconfig_static=run setenv ifconfig ip=${ipaddr}:${serverip}::${netmask}:mini2440:eth0\0" \
+	"ifconfig_dhcp=run setenv ifconfig ip=dhcp\0" \
 	"ifconfig=ip=dhcp\0" \
-	"set_bootargs_mmc=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${bootargs_mmc}\0" \
-	"set_bootargs_nand=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${bootargs_nand}\0" \
-	"set_bootargs_nfs=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${bootargs_nfs} ${ifconfig}\0" \
+	"set_bootargs_mmc=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${root_mmc}\0" \
+	"set_bootargs_nand=setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${root_nand}\0" \
+	"set_bootargs_nfs=run set_root_nfs\; setenv bootargs ${bootargs_base} ${bootargs_init} ${mini2440} ${root_nfs} ${ifconfig}\0" \
 	""	
 
 #endif	/* __CONFIG_H */
