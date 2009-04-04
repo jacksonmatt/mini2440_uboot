@@ -184,7 +184,7 @@
 
 #if 1
 #define CONFIG_USB_OHCI_NEW	1
-#define CONFIG_CMD_USB
+#define CONFIG_CMD_USB		1
 
 #define CFG_USB_OHCI_CPU_INIT	1
 #define CFG_USB_OHCI_REGS_BASE	0x49000000 /* S3C24X0_USB_HOST_BASE */
@@ -240,12 +240,12 @@
 #if 1
 #define	CFG_ENV_IS_IN_NAND	1
 #define CFG_ENV_OFFSET_OOB	1	// dont define for CFG_ENV_IS_IN_FLASH
-#define CFG_ENV_SIZE		0x10000		/* 128k Total Size of Environment Sector */
+#define CFG_ENV_SIZE		0x10000		/* 64k Total Size of Environment Sector */
 #else
 #define CFG_ENV_IS_IN_FLASH 1
 #define CFG_MY_ENV_OFFSET 0X40000
 #define CFG_ENV_ADDR		(CFG_FLASH_BASE + CFG_MY_ENV_OFFSET) /* addr of environment */
-#define CFG_ENV_SIZE		0x10000		/* 128k Total Size of Environment Sector */
+#define CFG_ENV_SIZE		0x10000		/* 64k Total Size of Environment Sector */
 #endif
 #define CFG_PREBOOT_OVERRIDE	1
 
@@ -324,9 +324,10 @@
 	"mini2440=mini2440=0tb\0" \
 	"bootargs_base=console=ttySAC0,115200 noinitrd\0" \
 	"bootargs_init=init=/sbin/init\0" \
-	"root_nand=root=/dev/mtdblock3\0" \
+	"root_nand=root=/dev/mtdblock3 rootfstype=jffs2\0" \
 	"root_mmc=root=/dev/mmcblk0p2 rootdelay=2\0" \
-	"set_root_nfs=setenv root_nfs root=/dev/nfs rw nfsroot=${serverip}:/mnt/nfs\0" \
+	"root_nfs=/mnt/nfs\0" \
+	"set_root_nfs=setenv root_nfs root=/dev/nfs rw nfsroot=${serverip}:${root_nfs}\0" \
 	"ifconfig_static=run setenv ifconfig ip=${ipaddr}:${serverip}::${netmask}:mini2440:eth0\0" \
 	"ifconfig_dhcp=run setenv ifconfig ip=dhcp\0" \
 	"ifconfig=ip=dhcp\0" \
