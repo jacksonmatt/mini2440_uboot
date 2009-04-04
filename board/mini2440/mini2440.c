@@ -77,28 +77,30 @@ int board_init (void)
 	gpio->GPACON = 0x007FFFFF;	/* Port A is all "special" */
 	// port B outputs reconfigured
 	gpio->GPBCON = 	
-					(0x1 <<  0) | // GPB0	OUT	TOUT0	PWM Buzzer
-					(0x2 <<  2) | // GPB1	OUT	TOUT1		LCD
-					(0x1 <<  4) | // GPB2	OUT	L3MODE
-					(0x1 <<  6) | // GBP3	OUT	L3DATA
-					(0x1 <<  8) | // GBP4	OUT	L3CLOCK
-					(0x1 << 10) | // GBP5	OUT	LED1
-					(0x1 << 12) | // GBP6	OUT	LED2
-					(0x1 << 14) | // GBP7	OUT	LED3
-					(0x1 << 16) | // GBP8	OUT	LED4
-					(0x2 << 18) | // GBP9	---	nXDACK0		CON5 EBI
-					(0x2 << 20) | // GBP10	---	nXDREQ0		CON5 EBI
-					0;
+		(0x1 <<  0) | // GPB0	OUT	TOUT0		PWM Buzzer
+		(0x2 <<  2) | // GPB1	OUT	TOUT1		LCD Backlight ?
+		(0x1 <<  4) | // GPB2	OUT	L3MODE
+		(0x1 <<  6) | // GBP3	OUT	L3DATA
+		(0x1 <<  8) | // GBP4	OUT	L3CLOCK
+		(0x1 << 10) | // GBP5	OUT	LED1
+		(0x1 << 12) | // GBP6	OUT	LED2
+		(0x1 << 14) | // GBP7	OUT	LED3
+		(0x1 << 16) | // GBP8	OUT	LED4
+		(0x2 << 18) | // GBP9	---	nXDACK0		CON5 EBI
+		(0x2 << 20) | // GBP10	---	nXDREQ0		CON5 EBI
+		0;
 	gpio->GPBUP	= (1 << 10) - 1; // disable pullup on all 10 pins
-	gpio->GPBDAT	= 	(0 << 5) | /* turn LED 1 on */
-				(1 << 6) | /* turn LED 1 off */
-				(1 << 7) | /* turn LED 1 off */
-				(1 << 8)   /* turn LED 1 off */;
+	gpio->GPBDAT	= 	
+		(0 << 5) | /* turn LED 1 on */
+		(1 << 6) | /* turn LED 1 off */
+		(1 << 7) | /* turn LED 1 off */
+		(1 << 8) | /* turn LED 1 off */
+		0;
 
 	// lcd signals on C and D
 	gpio->GPCCON	= (0xAAAAAAAA &	/* all default IN but ... */
 				~(0x3 << 10)) |	/* not pin 5 ... */
-				(0x1 << 10);	/* that is output (USB) */
+				(0x1 << 10);	/* that is output (USBD) */
 	gpio->GPCUP	= 0xFFFFFFFF;
 	gpio->GPCDAT	= 0;
 	
@@ -109,75 +111,72 @@ int board_init (void)
 	gpio->GPEUP	= 0x0000FFFF;
 
 	gpio->GPFCON 	= 
-					(0x1 <<  0) | // GPG0	EINT0	OUT
-					(0x1 <<  2) | // GPG1	EINT1	OUT
-					(0x1 <<  4) | // GPG2	EINT2	OUT
-					(0x1 <<  6) | // GPG3	EINT3	OUT
-					(0x1 <<  8) | // GPG4	EINT4	OUT
-					(0x1 << 10) | // GPG5	EINT5	OUT
-					(0x1 << 12) | // GPG6	EINT6	OUT
-					(0x0 << 14) | // GPG7	EINT7	IN	DM9000
-					0;
+		(0x1 <<  0) | // GPG0	EINT0	OUT
+		(0x1 <<  2) | // GPG1	EINT1	OUT
+		(0x1 <<  4) | // GPG2	EINT2	OUT
+		(0x1 <<  6) | // GPG3	EINT3	OUT
+		(0x1 <<  8) | // GPG4	EINT4	OUT
+		(0x1 << 10) | // GPG5	EINT5	OUT
+		(0x1 << 12) | // GPG6	EINT6	OUT
+		(0x0 << 14) | // GPG7	EINT7	IN	DM9000
+		0;
 	gpio->GPFDAT	= 0;
-	gpio->GPFUP	= ((1 << 7) - 1) // all disabled
-				& ~( 1 << 7 ) // but for the ethernet one, we need it.
-				;
+	gpio->GPFUP	= 
+		((1 << 7) - 1) // all disabled
+		& ~( 1 << 7 ) // but for the ethernet one, we need it.
+		;
 
 	gpio->GPGCON 	=
-					(0x0 <<  0) | // GPG0	EINT8	IN	Key1
-					(0x1 <<  2) | // GPG1	EINT9	OUT				Con5
-					(0x1 <<  4) | // GPG2	EINT10	OUT
-					(0x0 <<  6) | // GPG3	EINT11	IN	Key2
-					(0x1 <<  8) | // GPG4	EINT12	OUT
-					(0x0 << 10) | // GPG5	EINT13	IN	Key3
-					(0x0 << 12) | // GPG6	EINT14	IN	Key4
-					(0x0 << 14) | // GPG7	EINT15	IN	Key5
-					(0x1 << 16) | // GPG8	EINT16	OUT	nCD_SD
-					(0x1 << 18) | // GPG9	EINT17	OUT
-					(0x1 << 20) | // GPG10	EINT18	OUT
-					(0x0 << 22) | // GPG11	EINT19	IN	Key6
-					(0x0 << 24) | // GPG12	EINT18	IN	// Datasheet says GPG[12..15] need to be inputs
-					(0x0 << 26) | // GPG13	EINT18	IN	// hard pullups
-					(0x0 << 28) | // GPG14	EINT18	IN
-					(0x0 << 30) | // GPG15	EINT18	IN
-					0;
+		(0x0 <<  0) | // GPG0	EINT8	IN	Key1
+		(0x1 <<  2) | // GPG1	EINT9	OUT		Con5
+		(0x1 <<  4) | // GPG2	EINT10	OUT
+		(0x0 <<  6) | // GPG3	EINT11	IN	Key2
+		(0x1 <<  8) | // GPG4	EINT12	OUT
+		(0x0 << 10) | // GPG5	EINT13	IN	Key3
+		(0x0 << 12) | // GPG6	EINT14	IN	Key4
+		(0x0 << 14) | // GPG7	EINT15	IN	Key5
+		(0x1 << 16) | // GPG8	EINT16	OUT	nCD_SD
+		(0x1 << 18) | // GPG9	EINT17	OUT
+		(0x1 << 20) | // GPG10	EINT18	OUT
+		(0x0 << 22) | // GPG11	EINT19	IN	Key6
+		(0x0 << 24) | // GPG12	EINT18	IN	// GPG[12..15] need to be inputs
+		(0x0 << 26) | // GPG13	EINT18	IN	// hard pullups
+		(0x0 << 28) | // GPG14	EINT18	IN
+		(0x0 << 30) | // GPG15	EINT18	IN
+		0;
 	gpio->GPGUP = (1 << 15) -1;	// disable pullups for all pins
 	
 	gpio->GPHCON = 
-					(0x2 <<  0) | // GPH0	nCTS0			---
-					(0x2 <<  2) | // GPH1	nRTS0			---
-					(0x2 <<  4) | // GPH2	TXD0			---
-					(0x2 <<  6) | // GPH3	RXD0			---
-					(0x2 <<  8) | // GPH4	TXD1			---
-					(0x2 << 10) | // GPH5	RXD1			---
-					(0x2 << 12) | // GPH6	[TXD2]	nRTS1
-					(0x2 << 14) | // GPH7	[RXD2]	nCTS1
-					(0x1 << 16) | // GPH8	UEXTCLK			OUT
-					(0x1 << 18) | // GPH9	CLKOUT0			OUT
-					(0x1 << 20) | // GPH10	CLKOUT1			OUT
-					0;
+		(0x2 <<  0) | // GPH0	nCTS0			---
+		(0x2 <<  2) | // GPH1	nRTS0			---
+		(0x2 <<  4) | // GPH2	TXD0			---
+		(0x2 <<  6) | // GPH3	RXD0			---
+		(0x2 <<  8) | // GPH4	TXD1			---
+		(0x2 << 10) | // GPH5	RXD1			---
+		(0x2 << 12) | // GPH6	[TXD2]	nRTS1
+		(0x2 << 14) | // GPH7	[RXD2]	nCTS1
+		(0x1 << 16) | // GPH8	UEXTCLK			OUT
+		(0x1 << 18) | // GPH9	CLKOUT0			OUT
+		(0x1 << 20) | // GPH10	CLKOUT1			OUT
+		0;
 	gpio->GPHUP = (1 << 10) - 1; // disable pullups for all pins
 
 	gpio->EXTINT0=0x22222222;
 	gpio->EXTINT1=0x22222222;
 	gpio->EXTINT2=0x22222222;
 
-#if 0
 	/* USB Device Part */
-	/*GPGCON is reset for USB Device */
-	gpio->GPGCON = (gpio->GPGCON & ~(3 << 24)) | (1 << 24); /* Output Mode */
-	gpio->GPGUP = gpio->GPGUP | ( 1 << 12);			/* Pull up disable */
+	/* GPC5 is reset for USB Device */
 
-	gpio->GPGDAT |= ( 1 << 12) ; 
-	gpio->GPGDAT &= ~( 1 << 12) ; 
+	gpio->GPCDAT |= ( 1 << 5) ; 
 	udelay(20000);
-	gpio->GPGDAT |= ( 1 << 12) ; 
-#endif
+	gpio->GPCDAT &= ~( 1 << 5) ; 
+	udelay(20000);
+	gpio->GPCDAT |= ( 1 << 5) ; 
 
-	/* arch number of SMDK2440-Board */
-//	gd->bd->bi_arch_number = MACH_TYPE_S3C2440;
+	/* arch number from kernel post 2.6.28 */
 #ifndef MACH_TYPE_MINI2440
-#define MACH_TYPE_MINI2440 1999 /* from kernel post 2.6.28 */
+#define MACH_TYPE_MINI2440 1999
 #endif
 	gd->bd->bi_arch_number = MACH_TYPE_MINI2440;
 
