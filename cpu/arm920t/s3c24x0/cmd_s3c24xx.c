@@ -105,12 +105,17 @@ static const struct s3c24x0_pll_speed pll_configs[] = {
 	{
 		.mhz = 304,
 		.mpllcon = ((0x7d << 12) + (0x1 << 4) + 0x1),
-		.clkdivn = CLKDIVN_1_3_6,
+		.clkdivn = CLKDIVN_1_4_8,	/* changed from CLKDIVN_1_3_6 !! */
 	},
 	{
 		.mhz = 405,
 		.mpllcon = ((0x7f << 12) + (0x2 << 4) + 0x1),
 		.clkdivn = CLKDIVN_1_4_8,	/* changed from CLKDIVN_1_3_6 !! */
+	},
+	{ /* this will probably hang your board, but who knows... */
+		.mhz = 532,
+		.mpllcon = ((0x7d << 12) + (0x1 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
 	},
 #elif (CONFIG_SYS_CLK_FREQ == 16934400)
 static const u_int32_t upllcon = ((0x3c << 12) + (2 << 4) + 2);
