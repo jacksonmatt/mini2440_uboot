@@ -83,7 +83,7 @@
 #define CONFIG_DRIVER_S3C24X0_I2C	1
 #if (CONFIG_DRIVER_S3C24X0_I2C)
 #define CONFIG_HARD_I2C			1
-#define CFG_I2C_SPEED			400000	/* 400kHz according to PCF50606 data sheet */
+#define CFG_I2C_SPEED			100000	/* 100kHz */
 #define CFG_I2C_SLAVE			0x7f
 #endif
 
