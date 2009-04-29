@@ -112,11 +112,113 @@ static const struct s3c24x0_pll_speed pll_configs[] = {
 		.mpllcon = ((0x7f << 12) + (0x2 << 4) + 0x1),
 		.clkdivn = CLKDIVN_1_4_8,	/* changed from CLKDIVN_1_3_6 !! */
 	},
-	{ /* this will probably hang your board, but who knows... */
-		.mhz = 532,
-		.mpllcon = ((0x7d << 12) + (0x1 << 4) + 0x1),
+#ifdef CONFIG_MINI2440_OVERCLOCK
+	{
+		.mhz = 410,
+		.mpllcon = ((163 << 12) + (0x3 << 4) + 0x1),
 		.clkdivn = CLKDIVN_1_4_8,
 	},
+	{
+		.mhz = 415,
+		.mpllcon = ((165 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 420,
+		.mpllcon = ((167 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 425,
+		.mpllcon = ((169 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 430,
+		.mpllcon = ((171 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 434,
+		.mpllcon = ((173 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 439,
+		.mpllcon = ((175 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 444,
+		.mpllcon = ((177 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 451,
+		.mpllcon = ((180 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 456,
+		.mpllcon = ((182 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 461,
+		.mpllcon = ((184 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 466,
+		.mpllcon = ((186 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 470,
+		.mpllcon = ((188 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 475,
+		.mpllcon = ((190 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 480,
+		.mpllcon = ((192 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 485,
+		.mpllcon = ((194 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 492,
+		.mpllcon = ((197 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 499,
+		.mpllcon = ((200 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 504,
+		.mpllcon = ((202 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 516,
+		.mpllcon = ((207 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+	{
+		.mhz = 533,
+		.mpllcon = ((214 << 12) + (0x3 << 4) + 0x1),
+		.clkdivn = CLKDIVN_1_4_8,
+	},
+#endif /* CONFIG_MINI2440_OVERCLOCK */
 #elif (CONFIG_SYS_CLK_FREQ == 16934400)
 static const u_int32_t upllcon = ((0x3c << 12) + (2 << 4) + 2);
 static const struct s3c24x0_pll_speed pll_configs[] = {

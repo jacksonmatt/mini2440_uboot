@@ -57,6 +57,8 @@
 #define	CONFIG_S3C2440		1	/* in a SAMSUNG S3C2440 SoC     */
 #define CONFIG_MINI2440		1	/* on a MIN2440 Board  */
 
+#define CONFIG_MINI2440_OVERCLOCK 1	/* use frequencies over 405Mhz */
+
 /* input clock of PLL */
 #define CONFIG_SYS_CLK_FREQ	12000000	/* MINI2440 has 12.0000MHz input clock */
 
