@@ -1,4 +1,6 @@
+# TEST CHANGE
 #
+# 
 # (C) Copyright 2000-2008
 # Wolfgang Denk, DENX Software Engineering, wd@denx.de.
 #
