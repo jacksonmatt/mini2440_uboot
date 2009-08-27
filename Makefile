@@ -2477,8 +2477,15 @@ smdk2440_config :	unconfig
 smdk2443_config :	unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm920t smdk2443 NULL s3c24x0
 
-mini2440_config :	unconfig
-	@$(MKCONFIG) $(@:_config=) arm arm920t mini2440 NULL s3c24x0
+#mini2440_config :	unconfig
+#	@$(MKCONFIG) $(@:_config=) arm arm920t mini2440 NULL s3c24x0
+
+mini2440_config		\
+mini2440v1_config	\
+mini2440v2_config:	unconfig
+	@board/mini2440/split_by_variant.sh $@
+
+
 
 SX1_config :		unconfig
 	@$(MKCONFIG) $(@:_config=) arm arm925t sx1
